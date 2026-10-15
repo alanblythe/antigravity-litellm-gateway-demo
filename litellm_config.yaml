@@ -1,0 +1,31 @@
+model_list:
+  # Primary Agent Model
+  - model_name: gemini-3.8-flash
+    litellm_params:
+      model: vertex_ai/gemini-2.5-flash
+      vertex_project: os.environ/VERTEX_PROJECT
+      vertex_location: os.environ/VERTEX_LOCATION
+      timeout: 120
+
+  # High-Reasoning & Verification Model
+  - model_name: gemini-3.1-pro-preview
+    litellm_params:
+      model: vertex_ai/gemini-2.5-pro
+      vertex_project: os.environ/VERTEX_PROJECT
+      vertex_location: os.environ/VERTEX_LOCATION
+      timeout: 180
+
+  # Utility & Subagent Task Model
+  - model_name: gemini-3.1-flash-lite
+    litellm_params:
+      model: vertex_ai/gemini-2.5-flash
+      vertex_project: os.environ/VERTEX_PROJECT
+      vertex_location: os.environ/VERTEX_LOCATION
+      timeout: 60
+
+litellm_settings:
+  drop_params: true
+  set_verbose: true
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY

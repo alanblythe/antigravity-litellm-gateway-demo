@@ -1,0 +1,16 @@
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    container_name: antigravity-litellm-gateway
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4000:4000"
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml:ro
+      - "${GOOGLE_APPLICATION_CREDENTIALS:?Error: GOOGLE_APPLICATION_CREDENTIALS must be set in environment or .env}:/root/.config/gcloud/application_default_credentials.json:ro"
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /root/.config/gcloud/application_default_credentials.json
+      VERTEX_PROJECT: "${VERTEX_PROJECT:?Error: VERTEX_PROJECT must be set in environment or .env}"
+      VERTEX_LOCATION: "${VERTEX_LOCATION:-us-central1}"
+      LITELLM_MASTER_KEY: "${LITELLM_MASTER_KEY:-sk-enterprise-demo-key}"
+    command: ["--config", "/app/config.yaml", "--port", "4000", "--detailed_debug"]
